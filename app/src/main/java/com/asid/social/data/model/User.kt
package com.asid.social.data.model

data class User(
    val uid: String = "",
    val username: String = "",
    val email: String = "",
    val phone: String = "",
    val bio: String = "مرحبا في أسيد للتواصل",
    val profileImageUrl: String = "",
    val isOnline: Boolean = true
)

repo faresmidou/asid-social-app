@@ -1,0 +1,100 @@
+package com.asid.social
+
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Surface
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.navigation.NavHostController
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.asid.social.ui.screens.auth.LoginScreen
+import com.asid.social.ui.screens.auth.RegisterScreen
+import com.asid.social.ui.screens.chat.ChatScreen
+import com.asid.social.ui.screens.home.HomeScreen
+import com.asid.social.ui.screens.profile.ProfileScreen
+import com.asid.social.ui.theme.AsidAppTheme
+
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            AsidAppTheme {
+                Surface(
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    AsidNavHost()
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun AsidNavHost(
+    navController: NavHostController = rememberNavController()
+) {
+    NavHost(
+        navController = navController,
+        startDestination = "login"
+    ) {
+        composable("login") {
+            LoginScreen(
+                onLoginClick = {
+                    navController.navigate("home") {
+                        popUpTo("login") { inclusive = true }
+                    }
+                },
+                onRegisterClick = {
+                    navController.navigate("register")
+                }
+            )
+        }
+
+        composable("register") {
+            RegisterScreen(
+                onRegisterClick = {
+                    navController.navigate("home") {
+                        popUpTo("register") { inclusive = true }
+                    }
+                },
+                onBackClick = {
+                    navController.popBackStack()
+                }
+            )
+        }
+
+        composable("home") {
+            HomeScreen(
+                onOpenChat = { username ->
+                    navController.navigate("chat/$username")
+                },
+                onOpenProfile = {
+                    navController.navigate("profile")
+                }
+            )
+        }
+
+        composable(
+            route = "chat/{username}",
+            arguments = listOf(navArgument("username") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val username = backStackEntry.arguments?.getString("username") ?: "مستخدم"
+            ChatScreen(
+                username = username,
+                onBackClick = { navController.popBackStack() }
+            )
+        }
+
+        composable("profile") {
+            ProfileScreen(
+                onBackClick = { navController.popBackStack() }
+            )
+        }
+    }
+}

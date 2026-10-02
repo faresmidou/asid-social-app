@@ -1,0 +1,28 @@
+# أسيد للتواصل
+
+تطبيق Android اجتماعي مبني بـ Kotlin و Jetpack Compose، جاهز للتوسع مع Firebase لاحقًا.
+
+## التقنيات المستخدمة
+- Kotlin
+- Jetpack Compose
+- Navigation Compose
+- Material 3
+- Firebase-ready architecture
+
+## التشغيل
+1. افتح المشروع في Android Studio.
+2. تأكد من تثبيت Android SDK.
+3. ست��تاج إلى إضافة ملف `google-services.json` من Firebase بعد إنشاء مشروع Firebase.
+4. شغّل التطبيق على جهاز محاكاة أو هاتف فعلي.
+
+## ملاحظات
+- هذا الإصدار هو نسخة MVP احترافية قابلة للتطوير.
+- يتم استخدام Repository mock مؤقتًا لهيكلة المشروع قبل ربط Firebase الحقيقي.
+
+## الهيكل
+- `app/src/main/java/com/asid/social` : الكود الرئيسي
+- `app/src/main/res` : الموارد والواجهات
+- `app/build.gradle.kts` : إعدادات التطبيق
+
+## المطور
+- فارس محمد

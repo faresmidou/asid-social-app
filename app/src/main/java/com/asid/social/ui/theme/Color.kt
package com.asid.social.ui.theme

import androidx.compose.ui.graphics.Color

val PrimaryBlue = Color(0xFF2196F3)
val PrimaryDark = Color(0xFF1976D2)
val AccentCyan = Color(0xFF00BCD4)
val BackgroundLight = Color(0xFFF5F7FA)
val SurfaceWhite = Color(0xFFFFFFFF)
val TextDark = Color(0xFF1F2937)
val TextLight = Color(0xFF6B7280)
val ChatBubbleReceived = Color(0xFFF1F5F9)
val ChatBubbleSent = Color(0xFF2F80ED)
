@@ -1,0 +1,45 @@
+package com.asid.social.data.repository
+
+import com.asid.social.data.model.User
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+
+class AuthRepository {
+    suspend fun login(email: String, password: String): Result<User> = withContext(Dispatchers.IO) {
+        try {
+            if (email.isBlank() || password.isBlank()) {
+                Result.failure(IllegalArgumentException("البريد الإلكتروني وكلمة المرور مطلوبان"))
+            } else {
+                Result.success(
+                    User(
+                        uid = "demo-user-1",
+                        username = "faresmidou",
+                        email = email,
+                        phone = "+966500000000"
+                    )
+                )
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun register(username: String, email: String, phone: String, password: String): Result<User> = withContext(Dispatchers.IO) {
+        try {
+            if (username.isBlank() || email.isBlank() || phone.isBlank() || password.isBlank()) {
+                Result.failure(IllegalArgumentException("جميع الحقول مطلوبة"))
+            } else {
+                Result.success(
+                    User(
+                        uid = "demo-user-2",
+                        username = username,
+                        email = email,
+                        phone = phone
+                    )
+                )
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+}
